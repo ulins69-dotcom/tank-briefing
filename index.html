@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0F1633">
+<title>Tank 日(週)報</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%230F1633'/%3E%3Ctext x='50' y='62' font-size='52' text-anchor='middle' fill='%23D4AF37' font-family='sans-serif' font-weight='700'%3ET%3C/text%3E%3C/svg%3E">
+<style>
+  :root {
+    color-scheme: light;
+    --navy: #1E2761;
+    --navy-dark: #0F1633;
+    --ice: #CADCFC;
+    --gold: #D4AF37;
+    --gold-soft: #F2D479;
+    --text: #1A1A1A;
+    --muted: #5A6478;
+    --card: #F7F9FC;
+    --border: #E5E9F2;
+    --bg: #FAFBFE;
+    --shadow: 0 1px 3px rgba(15,22,51,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: "Microsoft JhengHei", "PingFang TC", "Apple SD Gothic Neo", -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Header */
+  header {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+    color: #fff;
+    padding: 18px 16px 14px;
+    border-left: 4px solid var(--gold);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(15,22,51,0.15);
+  }
+  header h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
+  header .sub { font-size: 11px; color: var(--gold-soft); margin-top: 2px; letter-spacing: 1.5px; }
+  header .date-row { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 11px; color: var(--ice); }
+
+  /* Tabs */
+  nav {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    position: sticky;
+    top: 76px;
+    z-index: 9;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav button {
+    flex: 1;
+    min-width: 80px;
+    padding: 14px 12px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  nav button.active {
+    color: var(--navy);
+    border-bottom-color: var(--gold);
+  }
+  nav button:active { background: var(--card); }
+
+  /* Main */
+  main { padding: 16px; max-width: 720px; margin: 0 auto; }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* Card */
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    border-top: 3px solid var(--gold);
+  }
+  .card-navy { background: var(--navy-dark); color: #fff; border-top-color: var(--gold); }
+  .card-navy h3, .card-navy h2 { color: var(--gold-soft); }
+  .card-navy p, .card-navy li { color: var(--ice); }
+  .card h3 {
+    font-size: 14px;
+    color: var(--navy);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card .emoji { font-size: 18px; }
+
+  /* News item */
+  .news {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .news:last-child { border-bottom: none; }
+  .news .num {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy-dark);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .news .num.navy-num { background: var(--navy); color: var(--gold); }
+  .news .title { font-weight: 600; color: var(--navy); font-size: 13px; line-height: 1.45; }
+  .news .insight { font-size: 12px; color: var(--text); margin-top: 4px; }
+  .news .action { font-size: 12px; color: var(--navy); font-style: italic; font-weight: 600; margin-top: 4px; }
+  .news .src { font-size: 10px; color: var(--muted); text-align: right; margin-top: 2px; }
+
+  /* Action checklist */
+  .checklist { margin-top: 4px; }
+  .checkitem {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.1s;
+  }
+  .checkitem:last-child { border-bottom: none; }
+  .checkitem:active { background: var(--card); }
+  .checkitem input[type="checkbox"] {
+    width: 22px; height: 22px;
+    margin-top: 1px;
+    accent-color: var(--gold);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .checkitem .ck-text {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .checkitem.done .ck-text { text-decoration: line-through; color: var(--muted); }
+  .ck-meta { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  .progress-bar {
+    background: var(--card);
+    height: 8px;
+    border-radius: 4px;
+    margin: 8px 0;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-soft) 100%);
+    transition: width 0.3s;
+  }
+  .progress-label { font-size: 11px; color: var(--muted); text-align: right; }
+
+  /* Note textarea */
+  .note-area {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    resize: vertical;
+    background: #fff;
+    color: var(--text);
+  }
+  .note-area:focus { outline: none; border-color: var(--gold); }
+
+  /* Archive list */
+  .archive-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .archive-item:last-child { border-bottom: none; }
+  .archive-name { font-size: 13px; color: var(--navy); font-weight: 500; }
+  .archive-meta { font-size: 11px; color: var(--muted); }
+  .archive-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-right: 4px;
+    font-weight: 600;
+  }
+  .tag-daily { background: #FFF4D4; color: #8B6914; }
+  .tag-weekly { background: #DDE7FF; color: #1E2761; }
+
+  /* Profile rows */
+  .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    gap: 12px;
+  }
+  .row:last-child { border-bottom: none; }
+  .row .k { color: var(--muted); flex-shrink: 0; }
+  .row .v { color: var(--text); font-weight: 500; text-align: right; }
+  .card-navy .row .k { color: var(--ice); }
+  .card-navy .row .v { color: #fff; }
+  .strike { text-decoration: line-through; color: #8090a8; font-weight: 400; font-size: 10px; }
+
+  /* Mentor */
+  .mentor-line { font-size: 13px; margin-bottom: 6px; }
+  .key { color: var(--gold-soft); font-weight: 700; font-style: italic; }
+
+  /* Buttons */
+  .btn-reset {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .btn-reset:active { background: var(--border); }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 24px 16px;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  /* Tablet/Desktop */
+  @media (min-width: 720px) {
+    header { padding: 24px 32px 18px; }
+    header h1 { font-size: 24px; }
+    nav { top: 96px; }
+    nav button { padding: 16px 20px; font-size: 15px; }
+    main { padding: 24px 32px; }
+    .card { padding: 22px 26px; margin-bottom: 16px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📊 Tank 日(週)報</h1>
+  <div class="sub">DAILY · WEEKLY · DISCIPLINE</div>
+  <div class="date-row">
+    <span id="today-date"></span>
+    <span id="today-weekday"></span>
+  </div>
+</header>
+
+<nav>
+  <button class="tab-btn active" data-tab="today">今日</button>
+  <button class="tab-btn" data-tab="week">本週</button>
+  <button class="tab-btn" data-tab="archive">歸檔</button>
+  <button class="tab-btn" data-tab="about">關於</button>
+</nav>
+
+<main>
+
+<!-- ============ 今日 ============ -->
+<section class="panel active" id="panel-today">
+
+  <div class="card card-navy">
+    <h3>🌅 今日簡報 — <span id="today-display"></span></h3>
+    <p style="font-size:13px; color: var(--ice); margin-top:4px;">「節制是訊號的根本。今天你只需要做對一件事。」</p>
+  </div>
+
+  <div class="card">
+    <h3><span class="emoji">🤖</span> AI 新技術 <span style="color:var(--muted); font-size:11px; font-weight:400; margin-left:auto;">Karpathy · Wolfe · Rundown · Fridman</span></h3>
+    <div class="news">
+      <div><span class="num">01</span><span class="title">OpenAI ChatGPT 個人理財功能已上線美國 Pro 用戶</span></div>
+      <div class="insight">可連結 12,000+ 金融機構（Plaid）。週末花 15 分鐘評估能否導入 Mia 店面記帳。</div>
+      <div class="action">→ 試用一次，列 3 個 Mia 用得到的功能 vs 風險</div>
+      <div class="src">Matt Wolfe / Future Tools</div>
+    </div>
+    <div class="news">
+      <div><span class="num">02</span><span class="title">Karpathy 警告 AI 應用多半是模型限制的「暫時包裝」</span></div>
+      <div class="insight">Sequoia AI Ascent 2026 演講；模型一升級，整類產品瞬間崩塌。</div>
+      <div class="action">→ 列出你目前用的 5 個 AI 工具，標記哪些是「暫時包裝」</div>
+      <div class="src">Sequoia AI Ascent 2026</div>
+    </div>
+    <div class="news">
+      <div><span class="num">03</span><span class="title">Google I/O 將推 Gemini Spark：24/7 個人 AI 助理</span></div>
+      <div class="insight">正面對打 ChatGPT 個人化方向。本週後可與 Claude 並行測試。</div>
+      <div class="action">→ I/O 後立即試用，紀錄 3 個測試情境</div>
+      <div class="src">Matt Wolfe AI News</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="emoji">📈</span> 財經 <span style="color:var(--muted); font-size:11px; font-weight:400; margin-left:auto;">財經M平方 · Dalio · Bloomberg · 財報狗</span></h3>
+    <div class="news">
+      <div><span class="num">01</span><span class="title">台股加權 5/15 收 41,172（+1.39%），週末休市</span></div>
+      <div class="insight">週一開盤關鍵：中東油價 + 美聯儲交接訊號。週末讀 1 篇深度分析。</div>
+      <div class="action">→ 開盤前看美股期指、油價、新台幣匯率三項</div>
+      <div class="src">TWSE / 財經M平方</div>
+    </div>
+    <div class="news">
+      <div><span class="num">02</span><span class="title">聯準會主席交接：Powell 卸任，Kevin Warsh 接棒</span></div>
+      <div class="insight">鷹派色彩偏濃；對利率路徑、美股估值短期構成壓力，新台幣可能波動。</div>
+      <div class="action">→ 列出手上 3 大資產對美元/利率的敏感度</div>
+      <div class="src">財經M平方 5 月投資月報</div>
+    </div>
+    <div class="news">
+      <div><span class="num">03</span><span class="title">Ray Dalio：兩年內 great turbulence，建議離 60/40 配置</span></div>
+      <div class="insight">最多 15% 配置黃金 + 加密貨幣對沖法幣貶值。對「房地產+定存」是直接挑戰。</div>
+      <div class="action">→ 本週末和 Mia 確認家庭資產：房地產+定存佔比是否過高</div>
+      <div class="src">Fortune / NYT 訪談</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="emoji">🌍</span> 國際大事 <span style="color:var(--muted); font-size:11px; font-weight:400; margin-left:auto;">TLDR · Foreign Affairs · TNL · DW</span></h3>
+    <div class="news">
+      <div><span class="num">01</span><span class="title">川習峰會（5/13-15）：台灣定位最重要議題</span></div>
+      <div class="insight">川普重申反對台灣宣布獨立，對台軍售案保留決定；美中無重大協議。</div>
+      <div class="action">→ 重新檢視家庭資產對台海情勢韌性（換匯/海外配置/緊急現金）</div>
+      <div class="src">DW News / 關鍵評論網</div>
+    </div>
+    <div class="news">
+      <div><span class="num">02</span><span class="title">荷莫茲海峽事件：WTI 單週飆 11%，收 $106</span></div>
+      <div class="insight">中東衝突外溢；油運保險與航運股波動。長照裝修工料成本被牽動。</div>
+      <div class="action">→ 估算下個裝修案的工料漲幅敏感度，加入報價彈性條款</div>
+      <div class="src">Just Security / Trading Economics</div>
+    </div>
+    <div class="news">
+      <div><span class="num">03</span><span class="title">基輔遭俄飛彈攻擊：5/16 公寓 24 死含 3 童</span></div>
+      <div class="insight">歐洲穀物與能源市場長尾影響延續，台灣進口物價上行壓力。</div>
+      <div class="action">→ 觀察小麥週線，確認家用備糧/備油安全水位</div>
+      <div class="src">Democracy Now! / DW News</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>✅ 今日行動清單 <button class="btn-reset" style="margin-left:auto;" onclick="resetChecklist('daily')">重置</button></h3>
+    <div class="checklist" id="daily-checklist" data-key="daily">
+      <label class="checkitem" data-id="d1">
+        <input type="checkbox">
+        <div>
+          <div class="ck-text">查美股 5/15 三大指數 + 油價週線 + 台海最新動態</div>
+          <div class="ck-meta">⏱ 10 分鐘 · WHY：為週一進出場與家庭應變做準備</div>
+        </div>
+      </label>
+      <label class="checkitem" data-id="d2">
+        <input type="checkbox">
+        <div>
+          <div class="ck-text">試用 ChatGPT Pro 個人理財功能（若已開通）</div>
+          <div class="ck-meta">⏱ 10 分鐘 · WHY：評估能否協助 Mia 店面的應收應付管理</div>
+        </div>
+      </label>
+      <label class="checkitem" data-id="d3">
+        <input type="checkbox">
+        <div>
+          <div class="ck-text">今晚與 Mia 30 分鐘對話：家庭資產配置 + 台海情勢應變</div>
+          <div class="ck-meta">⏱ 30 分鐘 · WHY：回應 Dalio 警告與川習會台灣議題，建立第二層防線</div>
+        </div>
+      </label>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="daily-progress"></div></div>
+    <div class="progress-label" id="daily-progress-label">0 / 3</div>
+  </div>
+
+  <div class="card">
+    <h3>📝 今日筆記 / 完成回顧</h3>
+    <textarea class="note-area" id="daily-note" placeholder="今日做完最重要的 1 件事是什麼？學到 1 個新東西？明天要繼續嗎？"></textarea>
+    <div class="ck-meta" id="daily-note-meta" style="margin-top:6px;">未儲存</div>
+  </div>
+
+  <div class="card card-navy">
+    <h3>導師提醒</h3>
+    <p class="mentor-line">46 歲還沒到退場，但已沒空閒當<span class="key">「被動接收資訊的中年人」</span>。</p>
+    <p class="mentor-line">Dalio 兩年大震盪 · Karpathy AI 崩塌警告 · 習近平把台灣放在峰會中心。</p>
+    <p class="mentor-line">這三件事的交集：<span class="key">現在不重新配置資產、工具與心智的中年人，未來會被市場、技術、地緣同時淘汰</span>。</p>
+  </div>
+</section>
+
+<!-- ============ 本週 ============ -->
+<section class="panel" id="panel-week">
+
+  <div class="card card-navy">
+    <h3>📊 本週深讀 — <span id="week-display"></span></h3>
+    <p style="font-size:13px; color: var(--ice); margin-top:4px;">「週日不是放假日，是重新瞄準的日子。」</p>
+  </div>
+
+  <div class="card">
+    <h3>🎯 本週 3 件最重要的事</h3>
+    <textarea class="note-area" id="weekly-top3" placeholder="01 職業再定位（卸任福生執秘後的下一個重心）&#10;02 家庭（Mia & 兩個兒子）&#10;03 自我成長（健康/學習）"></textarea>
+    <div class="ck-meta" id="weekly-top3-meta" style="margin-top:6px;">未儲存</div>
+  </div>
+
+  <div class="card">
+    <h3><span class="emoji">⚡</span> 能源</h3>
+    <div class="news">
+      <div><span class="num">01</span><span class="title">本週原油暴漲：WTI +11%、Brent +8%</span></div>
+      <div class="insight">WTI $106、Brent $109，荷莫茲海峽封鎖效應；IEA 警告供需失衡至 10 月。</div>
+      <div class="action">→ 重算家庭油料年度預算 + 列 3 個受惠/受害台股</div>
+    </div>
+    <div class="news">
+      <div><span class="num">02</span><span class="title">全球儲能首破 100GW（2025），2026 估 158GW</span></div>
+      <div class="insight">BloombergNEF：年增 41%。家用儲能可成長照裝修差異化賣點。</div>
+      <div class="action">→ 列 2 家可洽談的家用儲能供應商，下週通話</div>
+    </div>
+    <div class="news">
+      <div><span class="num">03</span><span class="title">台灣綠能目標再延後，建置進度落後</span></div>
+      <div class="insight">綠能不夠 = 工業電價長期看漲。對不動產評估與裝修報價結構直接衝擊。</div>
+      <div class="action">→ 「電費浮動條款」加入下次裝修報價單草稿</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3><span class="emoji">🌐</span> 社團 / 校友會</h3>
+    <div class="news">
+      <div><span class="num navy-num">01</span><span class="title">高雄博愛扶輪社（創社會員）關鍵 90 天定錨期</span></div>
+      <div class="insight">創社期是定調社風與人脈密度的窗口。主動建立 1 個內部小組或活動主題提案。</div>
+      <div class="action">→ 今晚 LINE 創社社長與秘書，索取例會與服務活動清單</div>
+    </div>
+    <div class="news">
+      <div><span class="num navy-num">02</span><span class="title">義守大學校友總會 秘書長 — 本週主動聯繫 3 位人脈</span></div>
+      <div class="insight">秘書長價值來自連結，不是出席。本週至少 3 通電話、3 杯咖啡。</div>
+      <div class="action">→ 寫下這 3 個人是誰、為什麼、要談什麼，今天完成</div>
+    </div>
+    <div class="news">
+      <div><span class="num navy-num">03</span><span class="title">起草「長照 x AI 公益講座」企劃（校友會 x 博愛扶輪社）</span></div>
+      <div class="insight">卸下福生執秘後，跨組織講座是重新定位「跨域連結者」品牌的快速戰術。</div>
+      <div class="action">→ 1 頁紙企劃（目的、講者、地點、時間、預算），週三前丟兩個群組</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>👨‍👩‍👦 個人 / 家庭 / 職業反思</h3>
+    <div class="news">
+      <div class="title">🏃 健康</div>
+      <div class="insight">本週運動幾次？睡眠平均幾小時？身體有什麼警訊？</div>
+    </div>
+    <div class="news">
+      <div class="title">💑 Mia</div>
+      <div class="insight">本週有「不談小孩、不談工作」的對話？花現 Love 美學設計有可協助處？</div>
+    </div>
+    <div class="news">
+      <div class="title">👦 兩個兒子（12、14）</div>
+      <div class="insight">和兒子們聊過超過 5 分鐘的話題？青少年期父子關係惡化還是改善？</div>
+    </div>
+    <div class="news">
+      <div class="title">🎯 職業再定位（卸任福生執秘後）</div>
+      <div class="insight">下一個職業重心？不動產營業員執照重新啟用？博愛扶輪社新合作？</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>✅ 本週行動清單 <button class="btn-reset" style="margin-left:auto;" onclick="resetChecklist('weekly')">重置</button></h3>
+    <div class="checklist" id="weekly-checklist" data-key="weekly">
+      <label class="checkitem" data-id="w1">
+        <input type="checkbox">
+        <div>
+          <div class="ck-text">LINE 高雄博愛扶輪社創社秘書索取本週例會與服務活動清單</div>
+          <div class="ck-meta">今晚前</div>
+        </div>
+      </label>
+      <label class="checkitem" data-id="w2">
+        <input type="checkbox">
+        <div>
+          <div class="ck-text">寫「長照 x AI 公益講座」企劃 1 頁紙（校友會 x 博愛扶輪社合辦）</div>
+          <div class="ck-meta">週三前</div>
+        </div>
+      </label>
+      <label class="checkitem" data-id="w3">
+        <input type="checkbox">
+        <div>
+          <div class="ck-text">列義守校友會 3 位優先人脈 + 聯絡</div>
+          <div class="ck-meta">今天起每天 1 位</div>
+        </div>
+      </label>
+      <label class="checkitem" data-id="w4">
+        <input type="checkbox">
+        <div>
+          <div class="ck-text">與 Mia 30 分鐘對話：卸任福生後的職業再定位 + 家庭資產配置</div>
+          <div class="ck-meta">今晚</div>
+        </div>
+      </label>
+      <label class="checkitem" data-id="w5">
+        <input type="checkbox">
+        <div>
+          <div class="ck-text">決定不動產營業員執照是否重新啟用，列出 3 個利弊</div>
+          <div class="ck-meta">週五前</div>
+        </div>
+      </label>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="weekly-progress"></div></div>
+    <div class="progress-label" id="weekly-progress-label">0 / 5</div>
+  </div>
+
+  <div class="card card-navy">
+    <h3>導師提醒</h3>
+    <p class="mentor-line">離開鳳山扶輪社、卸下福生執行秘書 — <span class="key">這不是退場，是清空背包</span>。</p>
+    <p class="mentor-line">博愛扶輪社創社、校友會秘書長、AI 與不動產複利 — 這是你接下來 3 年的主戰場。</p>
+    <p class="mentor-line">中年人最容易死於<span class="key">「捨不得放下舊頭銜」</span>。你做到了第一步：放下。</p>
+  </div>
+</section>
+
+<!-- ============ 歸檔 ============ -->
+<section class="panel" id="panel-archive">
+  <div class="card">
+    <h3>📁 歷史 PPT 檔案</h3>
+    <p style="font-size:11px; color:var(--muted); margin-bottom:10px;">檔案儲存於 OneDrive\文件\Tank週報\。要從手機開啟 PPT，請用 OneDrive App 同步。</p>
+    <div class="archive-item">
+      <div>
+        <span class="archive-tag tag-daily">日報</span>
+        <span class="archive-name">Tank日報_2026-05-18</span>
+        <div class="archive-meta">週一 · AI + 財經 + 國際</div>
+      </div>
+      <div class="archive-meta">待生成</div>
+    </div>
+    <div class="archive-item">
+      <div>
+        <span class="archive-tag tag-daily">日報</span>
+        <span class="archive-name">Tank日報_2026-05-17</span>
+        <div class="archive-meta">週日（補做） · AI + 財經 + 國際</div>
+      </div>
+      <div class="archive-meta">153 KB</div>
+    </div>
+    <div class="archive-item">
+      <div>
+        <span class="archive-tag tag-weekly">週報</span>
+        <span class="archive-name">Tank週報_2026-05-17</span>
+        <div class="archive-meta">第 20 週 · 能源 + 社團 + 家庭</div>
+      </div>
+      <div class="archive-meta">153 KB</div>
+    </div>
+    <div class="archive-item">
+      <div>
+        <span class="archive-tag tag-daily">日報</span>
+        <span class="archive-name">Tank日報_2026-05-16</span>
+        <div class="archive-meta">首版範本 · 週六</div>
+      </div>
+      <div class="archive-meta">153 KB</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📊 完成統計（本月）</h3>
+    <div class="row"><span class="k">日報生成數</span><span class="v" id="stat-daily-count">3</span></div>
+    <div class="row"><span class="k">週報生成數</span><span class="v" id="stat-weekly-count">1</span></div>
+    <div class="row"><span class="k">行動完成率（今日）</span><span class="v" id="stat-daily-complete">0%</span></div>
+    <div class="row"><span class="k">行動完成率（本週）</span><span class="v" id="stat-weekly-complete">0%</span></div>
+  </div>
+</section>
+
+<!-- ============ 關於 ============ -->
+<section class="panel" id="panel-about">
+  <div class="card card-navy">
+    <h3>👤 當前職務狀態</h3>
+    <div class="row"><span class="k">扶輪社</span><span class="v">高雄博愛扶輪社（創社）<br><span class="strike">原 鳳山扶輪社</span></span></div>
+    <div class="row"><span class="k">福生環境住易聯盟</span><span class="v">一般會員<br><span class="strike">原 理事/執行秘書</span></span></div>
+    <div class="row"><span class="k">義守大學校友總會</span><span class="v">秘書長</span></div>
+    <div class="row"><span class="k">高科大國企系校友會</span><span class="v">副會長</span></div>
+    <div class="row"><span class="k">家庭</span><span class="v">Mia + 2 子（12 / 14）</span></div>
+  </div>
+
+  <div class="card">
+    <h3>⚙️ 系統架構</h3>
+    <div class="row"><span class="k">日報排程</span><span class="v">週一～六 07:00 生成 → 09:00 提醒</span></div>
+    <div class="row"><span class="k">週報排程</span><span class="v">週日 07:00 生成 → 09:00 提醒</span></div>
+    <div class="row"><span class="k">起床鬧鐘</span><span class="v">週一～六 06:30（行事曆 + iPhone）</span></div>
+    <div class="row"><span class="k">PPT 資料夾</span><span class="v">OneDrive\文件\Tank週報\</span></div>
+    <div class="row"><span class="k">行事曆</span><span class="v">ulins6978@gmail.com</span></div>
+  </div>
+
+  <div class="card card-navy">
+    <h3>📜 紀律契約（14 天）</h3>
+    <p class="mentor-line">1. 每日 <span class="key">06:30 前起床</span>，立刻開機，不按貪睡。</p>
+    <p class="mentor-line">2. 每日 <span class="key">09:00–09:20 聖區</span>：不接電話、不開 LINE、只看 PPT、圈 1 行動、立刻啟動。</p>
+    <p class="mentor-line">3. 連續 <span class="key">14 天不中斷</span>。做不到不要對外宣稱「我在做數位轉型」。</p>
+  </div>
+
+  <div class="card">
+    <h3>💾 資料儲存</h3>
+    <p style="font-size:12px; color:var(--muted);">行動清單勾選與筆記儲存在你裝置的瀏覽器 localStorage，不會上雲、不會跨裝置。</p>
+    <button class="btn-reset" style="margin-top:10px;" onclick="exportData()">匯出資料</button>
+    <button class="btn-reset" style="margin-top:10px; margin-left:6px;" onclick="if(confirm('確定清除所有勾選與筆記？')) clearAll()">清除全部</button>
+  </div>
+
+  <div class="card">
+    <h3>ℹ️ 版本</h3>
+    <div class="row"><span class="k">建立日期</span><span class="v">2026-05-18</span></div>
+    <div class="row"><span class="k">版本</span><span class="v">v1.0</span></div>
+    <div class="row"><span class="k">更新方式</span><span class="v">由 Claude 重新產出 index.html</span></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Tank 日(週)報 · 由 Claude 維護 · 紀律是中年人最後的奢侈品
+</footer>
+
+<script>
+// === Date display ===
+const now = new Date();
+const weekdays = ['週日','週一','週二','週三','週四','週五','週六'];
+const dateStr = now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0');
+document.getElementById('today-date').textContent = dateStr;
+document.getElementById('today-weekday').textContent = weekdays[now.getDay()];
+document.getElementById('today-display').textContent = dateStr + ' (' + weekdays[now.getDay()] + ')';
+
+// week display
+function getWeekStartSunday(d) {
+  const x = new Date(d);
+  x.setDate(x.getDate() - x.getDay());
+  return x;
+}
+const wkStart = getWeekStartSunday(now);
+const wkStartStr = (wkStart.getMonth()+1) + '/' + wkStart.getDate();
+document.getElementById('week-display').textContent = '第 ' + Math.ceil((now - new Date(now.getFullYear(),0,1)) / 86400000 / 7) + ' 週 · 起 ' + wkStartStr;
+
+// === Tab switching ===
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// === Checklist with localStorage ===
+function todayKey() { return now.toISOString().slice(0,10); }
+function weekKey() {
+  const ws = getWeekStartSunday(now);
+  return ws.toISOString().slice(0,10);
+}
+function ckStorageKey(scope) {
+  return scope === 'daily' ? 'ck_daily_' + todayKey() : 'ck_weekly_' + weekKey();
+}
+
+function loadChecklist(scope) {
+  const k = ckStorageKey(scope);
+  const data = JSON.parse(localStorage.getItem(k) || '{}');
+  const list = document.getElementById(scope + '-checklist');
+  if (!list) return;
+  list.querySelectorAll('.checkitem').forEach(item => {
+    const id = item.dataset.id;
+    const cb = item.querySelector('input');
+    if (data[id] && data[id].checked) {
+      cb.checked = true;
+      item.classList.add('done');
+    }
+  });
+  updateProgress(scope);
+}
+
+function updateProgress(scope) {
+  const list = document.getElementById(scope + '-checklist');
+  if (!list) return;
+  const items = list.querySelectorAll('.checkitem');
+  const checked = list.querySelectorAll('input:checked').length;
+  const pct = items.length ? (checked / items.length * 100) : 0;
+  document.getElementById(scope + '-progress').style.width = pct + '%';
+  document.getElementById(scope + '-progress-label').textContent = checked + ' / ' + items.length;
+  // sync stats
+  if (scope === 'daily') document.getElementById('stat-daily-complete').textContent = Math.round(pct) + '%';
+  if (scope === 'weekly') document.getElementById('stat-weekly-complete').textContent = Math.round(pct) + '%';
+}
+
+['daily','weekly'].forEach(scope => {
+  const list = document.getElementById(scope + '-checklist');
+  if (!list) return;
+  list.querySelectorAll('.checkitem').forEach(item => {
+    const cb = item.querySelector('input');
+    cb.addEventListener('change', () => {
+      const k = ckStorageKey(scope);
+      const data = JSON.parse(localStorage.getItem(k) || '{}');
+      data[item.dataset.id] = { checked: cb.checked, ts: new Date().toISOString() };
+      localStorage.setItem(k, JSON.stringify(data));
+      item.classList.toggle('done', cb.checked);
+      updateProgress(scope);
+    });
+  });
+  loadChecklist(scope);
+});
+
+function resetChecklist(scope) {
+  if (!confirm('確定重置今' + (scope === 'daily' ? '日' : '週') + '的勾選？')) return;
+  localStorage.removeItem(ckStorageKey(scope));
+  document.getElementById(scope + '-checklist').querySelectorAll('input').forEach(cb => cb.checked = false);
+  document.getElementById(scope + '-checklist').querySelectorAll('.checkitem').forEach(it => it.classList.remove('done'));
+  updateProgress(scope);
+}
+
+// === Notes ===
+function bindNote(id, storageKey) {
+  const ta = document.getElementById(id);
+  const meta = document.getElementById(id + '-meta');
+  if (!ta) return;
+  ta.value = localStorage.getItem(storageKey) || '';
+  if (ta.value) meta.textContent = '已儲存 · ' + (localStorage.getItem(storageKey + '_ts') || '');
+  let timer;
+  ta.addEventListener('input', () => {
+    clearTimeout(timer);
+    meta.textContent = '輸入中…';
+    timer = setTimeout(() => {
+      localStorage.setItem(storageKey, ta.value);
+      const ts = new Date().toLocaleString('zh-TW');
+      localStorage.setItem(storageKey + '_ts', ts);
+      meta.textContent = '已儲存 · ' + ts;
+    }, 500);
+  });
+}
+bindNote('daily-note', 'note_daily_' + todayKey());
+bindNote('weekly-top3', 'top3_' + weekKey());
+
+// === Export / clear ===
+function exportData() {
+  const out = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    out[k] = localStorage.getItem(k);
+  }
+  const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'tank_briefing_data_' + todayKey() + '.json';
+  a.click();
+}
+function clearAll() {
+  localStorage.clear();
+  location.reload();
+}
+</script>
+
+</body>
+</html>
