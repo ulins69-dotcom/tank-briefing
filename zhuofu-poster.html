@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>拙福 ── 作品說明書</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wine:        #6E1B2E;
+      --gold:        #C9A86A;
+      --gold-dim:    rgba(201,168,106,0.35);
+      --gold-faint:  rgba(201,168,106,0.14);
+      --cream:       #F5F0E6;
+      --ink:         #1C1010;
+      --ink-mid:     #3C2828;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #C0BBB3;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 48px 24px 72px;
+    }
+
+    /* ─── Poster shell (A3 ratio 1 : √2) ─── */
+    .poster {
+      width: 900px;
+      min-height: 1273px;          /* 900 × 1.4142 */
+      background: var(--cream);
+      position: relative;
+      overflow: hidden;
+      font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+      box-shadow:
+        0 2px 8px  rgba(0,0,0,0.08),
+        0 24px 64px rgba(0,0,0,0.18);
+    }
+
+    /* Subtle vignette overlay */
+    .poster::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 55%, rgba(28,16,16,0.06) 100%);
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    /* ─── Corner registration marks ─── */
+    .corner {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      z-index: 15;
+    }
+    .c-tl { top:22px; left:22px;  border-top: 0.8px solid var(--gold); border-left: 0.8px solid var(--gold); }
+    .c-tr { top:22px; right:22px; border-top: 0.8px solid var(--gold); border-right: 0.8px solid var(--gold); }
+    .c-bl { bottom:22px; left:22px;  border-bottom: 0.8px solid var(--gold); border-left: 0.8px solid var(--gold); }
+    .c-br { bottom:22px; right:22px; border-bottom: 0.8px solid var(--gold); border-right: 0.8px solid var(--gold); }
+
+    /* ─── Background watermark ─── */
+    .watermark {
+      position: absolute;
+      top: 48px;
+      right: -10px;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 320px;
+      font-weight: 700;
+      color: transparent;
+      -webkit-text-stroke: 0.8px rgba(201,168,106,0.10);
+      line-height: 1;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      letter-spacing: -0.05em;
+    }
+
+    /* ─── Inner content ─── */
+    .inner {
+      position: relative;
+      z-index: 10;
+      padding: 56px 80px 64px;
+    }
+
+    /* ─── Gold rule variants ─── */
+    .rule-full {
+      height: 0.5px;
+      background: linear-gradient(90deg,
+        transparent 0%, var(--gold) 7%, var(--gold) 93%, transparent 100%);
+    }
+
+    .rule-mid {
+      width: 64px;
+      height: 0.8px;
+      background: var(--gold);
+    }
+
+    /* ─── Header strip ─── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .brand {
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.46em;
+      color: var(--gold);
+    }
+    .catalog {
+      font-family: 'Playfair Display', serif;
+      font-size: 9.5px;
+      font-style: italic;
+      letter-spacing: 0.32em;
+      color: var(--gold);
+      opacity: 0.65;
+    }
+
+    /* ─── Hero block ─── */
+    .hero {
+      padding: 46px 0 42px;
+    }
+
+    .main-title {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 116px;
+      font-weight: 700;
+      color: var(--wine);
+      letter-spacing: 0.24em;
+      line-height: 1;
+    }
+
+    .title-ornament {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 20px 0 16px;
+    }
+    .orn-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+    .orn-line {
+      width: 44px;
+      height: 0.5px;
+      background: var(--gold);
+    }
+    .orn-diamond {
+      width: 6px;
+      height: 6px;
+      border: 0.8px solid var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      letter-spacing: 0.24em;
+      line-height: 1.8;
+    }
+    .subtitle-em {
+      color: var(--wine);
+      font-style: italic;
+    }
+
+    /* ─── Section shell ─── */
+    .section { margin-top: 38px; }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .section-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.62em;
+      color: var(--wine);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .section-rule {
+      flex: 1;
+      height: 0.5px;
+      background: linear-gradient(90deg, var(--gold-dim), transparent);
+    }
+
+    /* ─── Philosophy ─── */
+    .philosophy {
+      padding-left: 22px;
+      border-left: 1px solid var(--gold-dim);
+    }
+    .philosophy p {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 2.35;
+      letter-spacing: 0.09em;
+    }
+    .philosophy strong {
+      color: var(--wine);
+      font-weight: 500;
+    }
+
+    /* ─── Materials ─── */
+    .materials {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 52px;
+    }
+    .mat-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 0.5px solid var(--gold-faint);
+    }
+    .mat-bullet {
+      width: 4px;
+      height: 4px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+    .mat-name {
+      font-size: 12.5px;
+      font-weight: 400;
+      color: var(--ink);
+      letter-spacing: 0.07em;
+      flex: 1;
+    }
+    .mat-role {
+      font-size: 10.5px;
+      font-weight: 300;
+      color: var(--gold);
+      letter-spacing: 0.14em;
+      white-space: nowrap;
+    }
+
+    /* ─── Process ─── */
+    /* Placed as: row1=(01,07), row2=(02,08)… so document order must interleave */
+    .process {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 52px;
+    }
+    .proc-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      padding: 8px 0;
+      border-bottom: 0.5px solid var(--gold-faint);
+    }
+    .proc-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      width: 26px;
+      flex-shrink: 0;
+    }
+    .proc-verb {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--wine);
+      letter-spacing: 0.18em;
+      width: 52px;       /* fits both 2-char and 3-char verbs */
+      flex-shrink: 0;
+    }
+    .proc-sep {
+      font-size: 10px;
+      color: var(--gold-dim);
+      margin: 0 7px 0 1px;
+      flex-shrink: 0;
+    }
+    .proc-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      letter-spacing: 0.07em;
+      line-height: 1.6;
+    }
+    .proc-row.phantom { border-bottom: none; opacity: 0; pointer-events: none; }
+
+    /* ─── Footer ─── */
+    .footer { margin-top: 48px; }
+    .footer-inner {
+      padding-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-left {
+      font-family: 'Playfair Display', serif;
+      font-size: 9.5px;
+      font-style: italic;
+      letter-spacing: 0.35em;
+      color: var(--gold);
+      opacity: 0.75;
+    }
+    .footer-right {
+      font-size: 9.5px;
+      font-weight: 400;
+      letter-spacing: 0.46em;
+      color: var(--wine);
+      opacity: 0.52;
+    }
+  </style>
+</head>
+<body>
+  <div class="poster">
+
+    <!-- Corner marks -->
+    <div class="corner c-tl"></div>
+    <div class="corner c-tr"></div>
+    <div class="corner c-bl"></div>
+    <div class="corner c-br"></div>
+
+    <!-- Watermark -->
+    <div class="watermark">福</div>
+
+    <div class="inner">
+
+      <!-- ── Header ── -->
+      <div class="header">
+        <span class="brand">花現 Love 美學設計</span>
+        <span class="catalog">Preserved Floral&ensp;·&ensp;ZF — 001</span>
+      </div>
+      <div class="rule-full"></div>
+
+      <!-- ── Hero ── -->
+      <div class="hero">
+        <h1 class="main-title">拙福</h1>
+        <div class="title-ornament">
+          <div class="orn-dot"></div>
+          <div class="orn-line"></div>
+          <div class="orn-diamond"></div>
+          <div class="orn-line"></div>
+          <div class="orn-dot"></div>
+        </div>
+        <p class="subtitle">
+          傻人有傻福&ensp;——&ensp;<span class="subtitle-em">一朵不肯凋謝的笨拙</span>
+        </p>
+      </div>
+
+      <div class="rule-full"></div>
+
+      <!-- ── 設計理念 ── -->
+      <div class="section">
+        <div class="section-head">
+          <span class="section-label">設 計 理 念</span>
+          <div class="section-rule"></div>
+        </div>
+        <div class="philosophy">
+          <p>她做了一件<strong>傻事</strong>——把花留下來，於是花，也把她留下來了。永生花是「傻福」最精準的物證：肯做最笨的事（把會謝的花一瓣瓣留住），才換來最久的福（永不凋零）。基座的<strong>不規則苔蘚球</strong>象徵「拙」，向上溢出的花叢象徵自然累積的「福」，大面積留白是傻人的節制，藏在花瓣間的<strong>金箔</strong>，是拙樸裡不張揚的價值。</p>
+        </div>
+      </div>
+
+      <!-- ── 材料清單 ── -->
+      <div class="section">
+        <div class="section-head">
+          <span class="section-label">材 料 清 單</span>
+          <div class="section-rule"></div>
+        </div>
+        <div class="materials">
+          <div class="mat-row">
+            <div class="mat-bullet"></div>
+            <span class="mat-name">深酒紅永生玫瑰&ensp;×9–12</span>
+            <span class="mat-role">情緒重心</span>
+          </div>
+          <div class="mat-row">
+            <div class="mat-bullet"></div>
+            <span class="mat-name">香檳金永生玫瑰&ensp;×7–9</span>
+            <span class="mat-role">漸層提亮</span>
+          </div>
+          <div class="mat-row">
+            <div class="mat-bullet"></div>
+            <span class="mat-name">永生繡球（灰紫／米）</span>
+            <span class="mat-role">雲霧體積</span>
+          </div>
+          <div class="mat-row">
+            <div class="mat-bullet"></div>
+            <span class="mat-name">卡斯比亞（米白）</span>
+            <span class="mat-role">空氣感線條</span>
+          </div>
+          <div class="mat-row">
+            <div class="mat-bullet"></div>
+            <span class="mat-name">兔尾草</span>
+            <span class="mat-role">律動童趣</span>
+          </div>
+          <div class="mat-row">
+            <div class="mat-bullet"></div>
+            <span class="mat-name">尤加利／銀葉</span>
+            <span class="mat-role">框架降彩度</span>
+          </div>
+          <div class="mat-row">
+            <div class="mat-bullet"></div>
+            <span class="mat-name">北歐馴鹿苔</span>
+            <span class="mat-role">「拙」之基座</span>
+          </div>
+          <div class="mat-row">
+            <div class="mat-bullet"></div>
+            <span class="mat-name">金箔＋鍍金枝</span>
+            <span class="mat-role">「福」之點睛</span>
+          </div>
+          <div class="mat-row">
+            <div class="mat-bullet"></div>
+            <span class="mat-name">乾燥花泥＋鋁線</span>
+            <span class="mat-role">隱形支撐</span>
+          </div>
+          <div class="mat-row">
+            <div class="mat-bullet"></div>
+            <span class="mat-name">啞光酒紅陶器／原木黃銅架</span>
+            <span class="mat-role">展覽級容器</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 製作流程 ── -->
+      <div class="section">
+        <div class="section-head">
+          <span class="section-label">製 作 流 程</span>
+          <div class="section-rule"></div>
+        </div>
+        <!--
+          Grid fills left→right, top→bottom.
+          Interleaved order: (01,07) (02,08) (03,09) (04,10) (05,11) (06,–)
+        -->
+        <div class="process">
+          <div class="proc-row">
+            <span class="proc-num">01</span>
+            <span class="proc-verb">定軸</span>
+            <span class="proc-sep">·</span>
+            <span class="proc-desc">拉左下往右上的不對稱新月線</span>
+          </div>
+          <div class="proc-row">
+            <span class="proc-num">07</span>
+            <span class="proc-verb">走線條</span>
+            <span class="proc-sep">·</span>
+            <span class="proc-desc">卡斯比亞延伸進留白</span>
+          </div>
+
+          <div class="proc-row">
+            <span class="proc-num">02</span>
+            <span class="proc-verb">塑苔</span>
+            <span class="proc-sep">·</span>
+            <span class="proc-desc">馴鹿苔包成刻意不完美的圓球</span>
+          </div>
+          <div class="proc-row">
+            <span class="proc-num">08</span>
+            <span class="proc-verb">點律動</span>
+            <span class="proc-sep">·</span>
+            <span class="proc-desc">兔尾草跳出呼吸感</span>
+          </div>
+
+          <div class="proc-row">
+            <span class="proc-num">03</span>
+            <span class="proc-verb">打底</span>
+            <span class="proc-sep">·</span>
+            <span class="proc-desc">藏入花泥鋁線骨架</span>
+          </div>
+          <div class="proc-row">
+            <span class="proc-num">09</span>
+            <span class="proc-verb">上金光</span>
+            <span class="proc-sep">·</span>
+            <span class="proc-desc">金箔點 3–5 片花瓣，寧少勿多</span>
+          </div>
+
+          <div class="proc-row">
+            <span class="proc-num">04</span>
+            <span class="proc-verb">定主花</span>
+            <span class="proc-sep">·</span>
+            <span class="proc-desc">深酒紅玫瑰鎖住焦點</span>
+          </div>
+          <div class="proc-row">
+            <span class="proc-num">10</span>
+            <span class="proc-verb">校留白</span>
+            <span class="proc-sep">·</span>
+            <span class="proc-desc">退三步守住右側的空</span>
+          </div>
+
+          <div class="proc-row">
+            <span class="proc-num">05</span>
+            <span class="proc-verb">拉漸層</span>
+            <span class="proc-sep">·</span>
+            <span class="proc-desc">香檳金玫瑰向右上延伸</span>
+          </div>
+          <div class="proc-row">
+            <span class="proc-num">11</span>
+            <span class="proc-verb">定裝</span>
+            <span class="proc-sep">·</span>
+            <span class="proc-desc">上展座，3000K 暖光斜射</span>
+          </div>
+
+          <div class="proc-row">
+            <span class="proc-num">06</span>
+            <span class="proc-verb">填雲霧</span>
+            <span class="proc-sep">·</span>
+            <span class="proc-desc">繡球化解硬邊</span>
+          </div>
+          <!-- phantom cell for grid balance -->
+          <div class="proc-row phantom" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <!-- ── Footer ── -->
+      <div class="footer">
+        <div class="rule-full"></div>
+        <div class="footer-inner">
+          <span class="footer-left">Preserved&ensp;·&ensp;Eternal&ensp;·&ensp;Cherished</span>
+          <span class="footer-right">花現 Love 美學設計</span>
+        </div>
+      </div>
+
+    </div><!-- /inner -->
+  </div><!-- /poster -->
+</body>
+</html>
