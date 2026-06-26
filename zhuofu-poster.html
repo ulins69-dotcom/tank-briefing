@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>拙福 ── 作品說明書</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --wine:     #6E1B2E;
+      --gold:     #C9A86A;
+      --gold-dim: rgba(201,168,106,0.35);
+      --cream:    #F5F0E6;
+      --ink:      #1C1010;
+      --ink-mid:  #3C2828;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #ADAAA4;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 48px 24px 80px;
+    }
+
+    /* ─── Poster: exact 1024×1536 ratio at 75% → 768×1152 ─── */
+    .poster {
+      width: 768px;
+      height: 1152px;
+      position: relative;
+      font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+      background: var(--cream) url('poster-bg.png') no-repeat center center / 100% 100%;
+      box-shadow:
+        0 2px 6px  rgba(0,0,0,0.10),
+        0 20px 60px rgba(0,0,0,0.22);
+      overflow: hidden;
+    }
+
+    /* ─── All text zones are absolutely positioned ─── */
+    .z {
+      position: absolute;
+      overflow: hidden;
+    }
+
+    /* ══════════════════════════════════════════
+       ZONE 1 — Top wine-red banner (title)
+       ══════════════════════════════════════════ */
+    .z-banner {
+      /* banner rectangle is roughly: top 3.8%, left 22%, right 79%, height 6.5% */
+      top: 3.8%; left: 22%; width: 57%; height: 6.5%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    .banner-title {
+      font-size: 44px;
+      font-weight: 700;
+      color: #F5F0E6;
+      letter-spacing: 0.36em;
+      line-height: 1;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+
+    /* ══════════════════════════════════════════
+       ZONE 2–4 — Three oval frames (right side)
+       ══════════════════════════════════════════ */
+    .z-oval {
+      /* Ovals are roughly: left 55%, width 39% */
+      left: 55.5%; width: 38%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 12px;
+    }
+    /* Stacked vertically; each oval ~7.2% tall */
+    .z-oval-1 { top: 11.0%; height: 7.2%; }
+    .z-oval-2 { top: 19.4%; height: 7.2%; }
+    .z-oval-3 { top: 27.8%; height: 7.2%; }
+
+    .oval-brand {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--wine);
+      letter-spacing: 0.3em;
+      line-height: 1.5;
+    }
+    .oval-sub {
+      font-size: 12.5px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      letter-spacing: 0.2em;
+      line-height: 1.6;
+    }
+    .oval-italic {
+      font-family: 'Playfair Display', serif;
+      font-size: 11.5px;
+      font-style: italic;
+      color: var(--gold);
+      letter-spacing: 0.25em;
+    }
+
+    /* ══════════════════════════════════════════
+       ZONE 5–10 — Six rectangular content boxes
+       Grid: 2 cols × 3 rows, starts ~41% from top
+       ══════════════════════════════════════════ */
+    .z-box {
+      padding: 11px 15px 8px;
+    }
+
+    /* Column positions */
+    .col-l { left:  3.3%; width: 44.0%; }
+    .col-r { left: 52.8%; width: 44.0%; }
+
+    /* Row positions (row heights ~16–17%) */
+    .row-1 { top: 41.5%; height: 16.5%; }
+    .row-2 { top: 59.5%; height: 16.5%; }
+    .row-3 { top: 77.5%; height: 18.5%; }
+
+    /* ─── Box label / section header ─── */
+    .box-label {
+      font-size: 8.5px;
+      font-weight: 500;
+      letter-spacing: 0.65em;
+      color: var(--wine);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+    .box-label::after {
+      content: '';
+      flex: 1;
+      height: 0.4px;
+      background: linear-gradient(90deg, rgba(201,168,106,0.4), transparent);
+    }
+    .box-label-spacer {
+      height: 8.5px;    /* match box-label for row alignment */
+      margin-bottom: 9px;
+    }
+
+    /* ─── 設計理念 text ─── */
+    .phil-body {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1.95;
+      letter-spacing: 0.07em;
+    }
+    .phil-body strong { color: var(--wine); font-weight: 500; }
+
+    /* ─── Box TR: decorative summary ─── */
+    .box-tr-inner {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      text-align: center;
+    }
+    .tr-rule { width: 36px; height: 0.5px; background: var(--gold); }
+    .tr-big  {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--wine);
+      letter-spacing: 0.32em;
+    }
+    .tr-sub  {
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      letter-spacing: 0.22em;
+      line-height: 1.8;
+    }
+    .tr-en   {
+      font-family: 'Playfair Display', serif;
+      font-size: 9px;
+      font-style: italic;
+      color: var(--gold);
+      letter-spacing: 0.28em;
+    }
+
+    /* ─── Material list items ─── */
+    .mat {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 0;
+      border-bottom: 0.4px solid rgba(201,168,106,0.18);
+    }
+    .mat:last-child { border-bottom: none; }
+    .mat-blt {
+      width: 3.5px;
+      height: 3.5px;
+      background: var(--gold);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+    .mat-name {
+      flex: 1;
+      font-size: 10.5px;
+      font-weight: 300;
+      color: var(--ink);
+      letter-spacing: 0.06em;
+    }
+    .mat-role {
+      font-size: 9px;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: 0.14em;
+      white-space: nowrap;
+    }
+
+    /* ─── Process items ─── */
+    .proc {
+      display: flex;
+      align-items: baseline;
+      padding: 4.5px 0;
+      border-bottom: 0.4px solid rgba(201,168,106,0.18);
+    }
+    .proc:last-child { border-bottom: none; }
+    .p-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--gold);
+      width: 22px;
+      flex-shrink: 0;
+    }
+    .p-verb {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--wine);
+      letter-spacing: 0.14em;
+      width: 46px;
+      flex-shrink: 0;
+    }
+    .p-sep {
+      font-size: 9px;
+      color: rgba(201,168,106,0.5);
+      margin: 0 4px 0 1px;
+      flex-shrink: 0;
+    }
+    .p-desc {
+      font-size: 10px;
+      font-weight: 300;
+      color: var(--ink-mid);
+      letter-spacing: 0.05em;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- ══ Zone 1: Banner title ══ -->
+  <div class="z z-banner">
+    <span class="banner-title">拙&ensp;福</span>
+  </div>
+
+  <!-- ══ Zone 2: Oval 1 — brand ══ -->
+  <div class="z z-oval z-oval-1">
+    <span class="oval-brand">花現 Love 美學設計</span>
+  </div>
+
+  <!-- ══ Zone 3: Oval 2 — subtitle part 1 ══ -->
+  <div class="z z-oval z-oval-2">
+    <span class="oval-sub">傻人有傻福</span>
+  </div>
+
+  <!-- ══ Zone 4: Oval 3 — subtitle part 2 ══ -->
+  <div class="z z-oval z-oval-3">
+    <span class="oval-italic">一朵不肯凋謝的笨拙</span>
+  </div>
+
+  <!-- ══ Zone 5: Box TL — 設計理念 ══ -->
+  <div class="z z-box col-l row-1">
+    <div class="box-label">設 計 理 念</div>
+    <p class="phil-body">她做了一件<strong>傻事</strong>——把花留下來，於是花，也把她留下來了。永生花是「傻福」最精準的物證：肯做最笨的事，才換來最久的福。基座的<strong>不規則苔蘚球</strong>象徵「拙」，溢出的花叢象徵「福」，大面積留白是傻人的節制，藏在花瓣間的<strong>金箔</strong>，是拙樸裡不張揚的價值。</p>
+  </div>
+
+  <!-- ══ Zone 6: Box TR — decorative summary ══ -->
+  <div class="z z-box col-r row-1">
+    <div class="box-tr-inner">
+      <div class="tr-rule"></div>
+      <div class="tr-big">拙&thinsp;福</div>
+      <div class="tr-rule"></div>
+      <p class="tr-sub">傻人有傻福<br>一朵不肯凋謝的笨拙</p>
+      <div class="tr-rule"></div>
+      <span class="tr-en">Preserved · Eternal · Cherished</span>
+    </div>
+  </div>
+
+  <!-- ══ Zone 7: Box ML — 材料清單 col 1 ══ -->
+  <div class="z z-box col-l row-2">
+    <div class="box-label">材 料 清 單</div>
+    <div class="mat"><div class="mat-blt"></div><span class="mat-name">深酒紅永生玫瑰&thinsp;×9–12</span><span class="mat-role">情緒重心</span></div>
+    <div class="mat"><div class="mat-blt"></div><span class="mat-name">香檳金永生玫瑰&thinsp;×7–9</span><span class="mat-role">漸層提亮</span></div>
+    <div class="mat"><div class="mat-blt"></div><span class="mat-name">永生繡球（灰紫／米）</span><span class="mat-role">雲霧體積</span></div>
+    <div class="mat"><div class="mat-blt"></div><span class="mat-name">卡斯比亞（米白）</span><span class="mat-role">空氣感線條</span></div>
+    <div class="mat"><div class="mat-blt"></div><span class="mat-name">兔尾草</span><span class="mat-role">律動童趣</span></div>
+  </div>
+
+  <!-- ══ Zone 8: Box MR — 材料清單 col 2 ══ -->
+  <div class="z z-box col-r row-2">
+    <div class="box-label-spacer"></div>
+    <div class="mat"><div class="mat-blt"></div><span class="mat-name">尤加利／銀葉</span><span class="mat-role">框架降彩度</span></div>
+    <div class="mat"><div class="mat-blt"></div><span class="mat-name">北歐馴鹿苔</span><span class="mat-role">「拙」之基座</span></div>
+    <div class="mat"><div class="mat-blt"></div><span class="mat-name">金箔＋鍍金枝</span><span class="mat-role">「福」之點睛</span></div>
+    <div class="mat"><div class="mat-blt"></div><span class="mat-name">乾燥花泥＋鋁線</span><span class="mat-role">隱形支撐</span></div>
+    <div class="mat"><div class="mat-blt"></div><span class="mat-name">啞光酒紅陶器／原木黃銅架</span><span class="mat-role">展覽級容器</span></div>
+  </div>
+
+  <!-- ══ Zone 9: Box BL — 製作流程 steps 1–6 ══ -->
+  <div class="z z-box col-l row-3">
+    <div class="box-label">製 作 流 程</div>
+    <div class="proc"><span class="p-num">01</span><span class="p-verb">定軸</span><span class="p-sep">·</span><span class="p-desc">拉左下往右上的不對稱新月線</span></div>
+    <div class="proc"><span class="p-num">02</span><span class="p-verb">塑苔</span><span class="p-sep">·</span><span class="p-desc">馴鹿苔包成刻意不完美的圓球</span></div>
+    <div class="proc"><span class="p-num">03</span><span class="p-verb">打底</span><span class="p-sep">·</span><span class="p-desc">藏入花泥鋁線骨架</span></div>
+    <div class="proc"><span class="p-num">04</span><span class="p-verb">定主花</span><span class="p-sep">·</span><span class="p-desc">深酒紅玫瑰鎖住焦點</span></div>
+    <div class="proc"><span class="p-num">05</span><span class="p-verb">拉漸層</span><span class="p-sep">·</span><span class="p-desc">香檳金玫瑰向右上延伸</span></div>
+    <div class="proc"><span class="p-num">06</span><span class="p-verb">填雲霧</span><span class="p-sep">·</span><span class="p-desc">繡球化解硬邊</span></div>
+  </div>
+
+  <!-- ══ Zone 10: Box BR — 製作流程 steps 7–11 ══ -->
+  <div class="z z-box col-r row-3">
+    <div class="box-label-spacer"></div>
+    <div class="proc"><span class="p-num">07</span><span class="p-verb">走線條</span><span class="p-sep">·</span><span class="p-desc">卡斯比亞延伸進留白</span></div>
+    <div class="proc"><span class="p-num">08</span><span class="p-verb">點律動</span><span class="p-sep">·</span><span class="p-desc">兔尾草跳出呼吸感</span></div>
+    <div class="proc"><span class="p-num">09</span><span class="p-verb">上金光</span><span class="p-sep">·</span><span class="p-desc">金箔點 3–5 片花瓣，寧少勿多</span></div>
+    <div class="proc"><span class="p-num">10</span><span class="p-verb">校留白</span><span class="p-sep">·</span><span class="p-desc">退三步守住右側的空</span></div>
+    <div class="proc"><span class="p-num">11</span><span class="p-verb">定裝</span><span class="p-sep">·</span><span class="p-desc">上展座，3000K 暖光斜射</span></div>
+  </div>
+
+</div>
+</body>
+</html>
