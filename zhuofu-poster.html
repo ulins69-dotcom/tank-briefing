@@ -83,30 +83,31 @@
     .z-oval-3 { top: 25.5%; height: 7%; }
 
     .oval-brand {
-      font-size: 13px;
-      font-weight: 500;
+      font-size: 16px;
+      font-weight: 600;
       color: var(--wine);
-      letter-spacing: 0.3em;
-      line-height: 1.5;
+      letter-spacing: 0.25em;
+      line-height: 1.4;
     }
     .oval-sub {
-      font-size: 12.5px;
-      font-weight: 300;
+      font-size: 15px;
+      font-weight: 400;
       color: var(--ink-mid);
-      letter-spacing: 0.2em;
-      line-height: 1.6;
+      letter-spacing: 0.18em;
+      line-height: 1.5;
     }
     .oval-italic {
       font-family: 'Playfair Display', serif;
-      font-size: 11.5px;
+      font-size: 13px;
       font-style: italic;
       color: var(--gold);
-      letter-spacing: 0.25em;
+      letter-spacing: 0.2em;
     }
 
     /* ══════════════════════════════════════════
-       ZONE 5–10 — Six rectangular content boxes
-       Grid: 2 cols × 3 rows, starts ~41% from top
+       ZONE 5–8 — Four rectangular content boxes
+       Row 1: 2 boxes (設計理念 / 品牌資訊)
+       Row 2-3 merged: 2 tall boxes (材料 / 流程)
        ══════════════════════════════════════════ */
     .z-box {
       padding: 11px 15px 8px;
@@ -116,10 +117,11 @@
     .col-l { left:  2.5%; width: 45.5%; }
     .col-r { left: 52.0%; width: 45.5%; }
 
-    /* Row positions — shifted down to clear flower decoration */
+    /* Row 1: top info boxes */
     .row-1 { top: 48.0%; height: 14.0%; }
-    .row-2 { top: 63.0%; height: 14.0%; }
-    .row-3 { top: 78.0%; height: 16.5%; }
+
+    /* Rows 2+3 merged into one tall zone each */
+    .row-2-3 { top: 63.0%; height: 31.5%; }
 
     /* ─── Box label / section header ─── */
     .box-label {
@@ -297,19 +299,14 @@
     </div>
   </div>
 
-  <!-- ══ Zone 7: Box ML — 材料清單 col 1 ══ -->
-  <div class="z z-box col-l row-2">
+  <!-- ══ Zone 7: 材料清單 — full left column ══ -->
+  <div class="z z-box col-l row-2-3">
     <div class="box-label">材 料 清 單</div>
     <div class="mat"><div class="mat-blt"></div><span class="mat-name">深酒紅永生玫瑰&thinsp;×9–12</span><span class="mat-role">情緒重心</span></div>
     <div class="mat"><div class="mat-blt"></div><span class="mat-name">香檳金永生玫瑰&thinsp;×7–9</span><span class="mat-role">漸層提亮</span></div>
     <div class="mat"><div class="mat-blt"></div><span class="mat-name">永生繡球（灰紫／米）</span><span class="mat-role">雲霧體積</span></div>
     <div class="mat"><div class="mat-blt"></div><span class="mat-name">卡斯比亞（米白）</span><span class="mat-role">空氣感線條</span></div>
     <div class="mat"><div class="mat-blt"></div><span class="mat-name">兔尾草</span><span class="mat-role">律動童趣</span></div>
-  </div>
-
-  <!-- ══ Zone 8: Box MR — 材料清單 col 2 ══ -->
-  <div class="z z-box col-r row-2">
-    <div class="box-label-spacer"></div>
     <div class="mat"><div class="mat-blt"></div><span class="mat-name">尤加利／銀葉</span><span class="mat-role">框架降彩度</span></div>
     <div class="mat"><div class="mat-blt"></div><span class="mat-name">北歐馴鹿苔</span><span class="mat-role">「拙」之基座</span></div>
     <div class="mat"><div class="mat-blt"></div><span class="mat-name">金箔＋鍍金枝</span><span class="mat-role">「福」之點睛</span></div>
@@ -317,8 +314,8 @@
     <div class="mat"><div class="mat-blt"></div><span class="mat-name">啞光酒紅陶器／原木黃銅架</span><span class="mat-role">展覽級容器</span></div>
   </div>
 
-  <!-- ══ Zone 9: Box BL — 製作流程 steps 1–6 ══ -->
-  <div class="z z-box col-l row-3">
+  <!-- ══ Zone 8: 製作流程 — full right column ══ -->
+  <div class="z z-box col-r row-2-3">
     <div class="box-label">製 作 流 程</div>
     <div class="proc"><span class="p-num">01</span><span class="p-verb">定軸</span><span class="p-sep">·</span><span class="p-desc">拉左下往右上的不對稱新月線</span></div>
     <div class="proc"><span class="p-num">02</span><span class="p-verb">塑苔</span><span class="p-sep">·</span><span class="p-desc">馴鹿苔包成刻意不完美的圓球</span></div>
@@ -326,11 +323,6 @@
     <div class="proc"><span class="p-num">04</span><span class="p-verb">定主花</span><span class="p-sep">·</span><span class="p-desc">深酒紅玫瑰鎖住焦點</span></div>
     <div class="proc"><span class="p-num">05</span><span class="p-verb">拉漸層</span><span class="p-sep">·</span><span class="p-desc">香檳金玫瑰向右上延伸</span></div>
     <div class="proc"><span class="p-num">06</span><span class="p-verb">填雲霧</span><span class="p-sep">·</span><span class="p-desc">繡球化解硬邊</span></div>
-  </div>
-
-  <!-- ══ Zone 10: Box BR — 製作流程 steps 7–11 ══ -->
-  <div class="z z-box col-r row-3">
-    <div class="box-label-spacer"></div>
     <div class="proc"><span class="p-num">07</span><span class="p-verb">走線條</span><span class="p-sep">·</span><span class="p-desc">卡斯比亞延伸進留白</span></div>
     <div class="proc"><span class="p-num">08</span><span class="p-verb">點律動</span><span class="p-sep">·</span><span class="p-desc">兔尾草跳出呼吸感</span></div>
     <div class="proc"><span class="p-num">09</span><span class="p-verb">上金光</span><span class="p-sep">·</span><span class="p-desc">金箔點 3–5 片花瓣，寧少勿多</span></div>
