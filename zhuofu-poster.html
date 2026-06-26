@@ -71,18 +71,16 @@
        ZONE 2–4 — Three oval frames (right side)
        ══════════════════════════════════════════ */
     .z-oval {
-      /* Ovals are roughly: left 55%, width 39% */
-      left: 55.5%; width: 38%;
+      left: 57%; width: 36%;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 0 12px;
+      padding: 0 10px;
     }
-    /* Stacked vertically; each oval ~7.2% tall */
-    .z-oval-1 { top: 11.0%; height: 7.2%; }
-    .z-oval-2 { top: 19.4%; height: 7.2%; }
-    .z-oval-3 { top: 27.8%; height: 7.2%; }
+    .z-oval-1 { top:  9.5%; height: 7%; }
+    .z-oval-2 { top: 17.5%; height: 7%; }
+    .z-oval-3 { top: 25.5%; height: 7%; }
 
     .oval-brand {
       font-size: 13px;
@@ -115,13 +113,13 @@
     }
 
     /* Column positions */
-    .col-l { left:  3.3%; width: 44.0%; }
-    .col-r { left: 52.8%; width: 44.0%; }
+    .col-l { left:  2.5%; width: 45.5%; }
+    .col-r { left: 52.0%; width: 45.5%; }
 
-    /* Row positions (row heights ~16–17%) */
-    .row-1 { top: 41.5%; height: 16.5%; }
-    .row-2 { top: 59.5%; height: 16.5%; }
-    .row-3 { top: 77.5%; height: 18.5%; }
+    /* Row positions — shifted down to clear flower decoration */
+    .row-1 { top: 48.0%; height: 14.0%; }
+    .row-2 { top: 63.0%; height: 14.0%; }
+    .row-3 { top: 78.0%; height: 16.5%; }
 
     /* ─── Box label / section header ─── */
     .box-label {
@@ -286,15 +284,16 @@
     <p class="phil-body">她做了一件<strong>傻事</strong>——把花留下來，於是花，也把她留下來了。永生花是「傻福」最精準的物證：肯做最笨的事，才換來最久的福。基座的<strong>不規則苔蘚球</strong>象徵「拙」，溢出的花叢象徵「福」，大面積留白是傻人的節制，藏在花瓣間的<strong>金箔</strong>，是拙樸裡不張揚的價值。</p>
   </div>
 
-  <!-- ══ Zone 6: Box TR — decorative summary ══ -->
+  <!-- ══ Zone 6: Box TR — brand & subtitle ══ -->
   <div class="z z-box col-r row-1">
-    <div class="box-tr-inner">
+    <div class="box-label">品 牌 資 訊</div>
+    <div class="box-tr-inner" style="height:calc(100% - 28px);">
       <div class="tr-rule"></div>
-      <div class="tr-big">拙&thinsp;福</div>
+      <p class="tr-sub" style="font-size:12px;letter-spacing:0.28em;line-height:2;">花現 Love 美學設計</p>
       <div class="tr-rule"></div>
-      <p class="tr-sub">傻人有傻福<br>一朵不肯凋謝的笨拙</p>
+      <p class="tr-sub" style="font-size:11px;letter-spacing:0.18em;line-height:1.9;color:#3C2828;">傻人有傻福<br>一朵不肯凋謝的笨拙</p>
       <div class="tr-rule"></div>
-      <span class="tr-en">Preserved · Eternal · Cherished</span>
+      <span class="tr-en" style="font-size:9px;">Preserved · Eternal · Cherished</span>
     </div>
   </div>
 
